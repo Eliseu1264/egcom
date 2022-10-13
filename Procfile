@@ -1,0 +1,1 @@
+web: gunicorn egcom.wsgi --log-file -

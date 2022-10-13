@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content  %}
+    <form method="post">
+        {% csrf_token %}
+        {% buttons %}
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Exclusão de registros</h4>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir o pedido "{{ object.id }}"?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">
+                        Confirmar
+                    </button>
+                    <button type="button" class="btn btn-warning">
+                        <a href="{% url 'list_pedido_venda' %}">Retornar</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endbuttons %}
+    </form>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+    <br>
+    <div class="row" style="background-color:lightblue; height:32px;">
+        <h4 style="margin-left: 20px">Pedido de Venda</h4>
+    </div>
+    <div class="row">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr style="background-color:beige; width:1150px; font-family: Tahoma">
+                    <th scope="col">Pedido</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Vendedor</th>
+                    <th scope="col">Qtd.parc.</th>
+                    <th scope="col">Data de entrega</th>
+                    <th scope="col">Data cancelamento</th>
+                 </tr>
+            </thead>
+            <tbody>
+                {% for pedidovenda in pedidovendas %}
+                    <tr>
+                        <td style="text-align:center">{{ pedidovenda.id }}</td>
+                        <td>{{ pedidovenda.cliente }}</td>
+                        <td>{{ pedidovenda.vendedor }}</td>
+                        <td style="text-align:center">{{ pedidovenda.qtdparcelas }}</td>
+                        <td>{{ pedidovenda.dataentrega|date:'d/m/Y H:i' }}</td>  
+                        <td>{{ pedidovenda.datacancelamento|date:'d/m/Y H:i' }}</td>                                                               
+                        <td>
+                            <div style="text-align:right">
+                                <a class="btn btn-outline-primary btn-sm" style="width: 90px;" href="{% url 'upd_pedido_venda' pedidovenda.pk %}">Editar</a>
+                                <a class="btn btn-outline-danger btn-sm" style="width: 90px" href="{% url 'del_pedido_venda' pedidovenda.pk %}">Excluir</a>
+                            </div>   
+                        </td>
+                    </tr>
+                {% endfor %}
+             </tbody>
+        </table>
+        <div>
+           <a class="btn btn-info" style="width: 100px" href="{% url 'add_pedido_venda' %}">Incluir</a>       
+        </div>
+        {% include 'paginacao.html' %}
+    </div>
+{% endblock %}

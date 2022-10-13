@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load humanize %}
+{% block content  %}
+    <form method="post">
+        {% csrf_token %}
+        {% buttons %}
+        <br>
+        <div class="row" style="background-color:lightblue; height:32px">
+            <h4 style="margin-left: 20px">Produtos</h4>
+        </div>     
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr style="background-color:beige; width:1150px">
+                    <th scope="col">#</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Unidade</th>
+                    <th scope="col">Grupo</th>
+                    <th scope="col">Ativo?</th>
+                    <th scope="col" style="text-align:right">Quantidade</th>
+                    <th scope="col" style="text-align:right">Pço de custo</th>
+                    <th scope="col" style="text-align:right">Pço de venda</th>                                                         
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in produtos %}
+                    <tr>
+                        <td>{{ produto.id }}</td>
+                        <td>{{ produto.descricao }}</td>
+                        <td>{{ produto.unidade }}</td>
+                        <td>{{ produto.grupo }}</td>    
+                        <td>{% if produto.ativo %} Sim {% else %} Não {% endif %}</td>                                         
+                        <td style="text-align:right">{{ produto.quantidade }}</td>                        
+                        <td style="text-align:right">{{ produto.preco_custo|intcomma }}</td>
+                        <td style="text-align:right">{{ produto.preco_venda|intcomma }}</td>
+                    </tr>
+                {% endfor %}
+             </tbody>
+        </table>
+        
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Exclusão de registros</h4>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir o produto "{{ object }}" de código "{{ object.id }}"?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">
+                        Confirmar
+                    </button>
+                    <button type="button" class="btn btn-warning">
+                        <a href="{% url 'list_produto' %}">Retornar</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endbuttons %}
+    </form>
+{% endblock %}

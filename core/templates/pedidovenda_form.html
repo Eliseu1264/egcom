@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <br>
+     <div class="row" style="background-color:lightblue; height:32px;">
+        <h4 style="margin-left: 20px">Pedido de Venda</h4>
+    </div>  
+    <div class="row" style="background-color:aliceblue; height:12px;"></div>     
+    <form method="post">
+        {% csrf_token %}
+         <!-- {% bootstrap_form form %} -->
+        <div class="row" style="background-color:aliceblue">   
+            <div class="col-md-3">
+                {{ form.cliente|as_crispy_field }}
+            </div>
+            <div class="col-md-3">           
+                {{ form.vendedor|as_crispy_field }}
+            </div>
+            <div class="col-md-3">
+                {{ form.dataentrega|as_crispy_field }}
+            </div>
+            <div class="col-md-3">
+                {{ form.datacancelamento|as_crispy_field }}
+            </div>            
+        </div>    
+        <div class="row" style="background-color:aliceblue">
+            <div class="col-md-4">
+                  {{ form.qtdparcelas|as_crispy_field }}
+            </div>
+            <div class="col-md-4">
+                {{ form.comissao|as_crispy_field }}
+            </div>
+        </div>   
+        <div class="row" style="background-color:aliceblue">                
+            <div class="col-md-12">
+                {{ form.observacao|as_crispy_field }}
+            </div>
+        </div>   
+        {% buttons %}
+            <button type="submit" class="btn btn-primary" style="width: 100px">
+                    Salvar
+            </button>
+            <button type="button" class="btn btn-warning" style="width: 100px">
+                <a href="{% url 'list_pedido_venda' %}">Retornar</a>
+            </button>
+        {% endbuttons %}
+    </form>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+    <br>
+    <div class="row" style="background-color:lightblue; height:32px">
+        <h4 style="margin-left: 20px">Produtos</h4>
+    </div>     
+    <div class="row">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr style="background-color:beige; width:1150px">
+                    <th scope="col">#</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Unidade</th>
+                    <th scope="col">Grupo</th>
+                    <th scope="col">Ativo?</th>
+                    <th scope="col" style="text-align:right">Quantidade</th>
+                    <th scope="col" style="text-align:right">Pço de custo</th>
+                    <th scope="col" style="text-align:right">Pço de venda</th>                                                         
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in produtos %}
+                    <tr>
+                        <td>{{ produto.id }}</td>
+                        <td>{{ produto.descricao }}</td>
+                        <td>{{ produto.unidade }}</td>
+                        <td>{{ produto.grupo }}</td>    
+                        <td>{% if produto.ativo %} Sim {% else %} Não {% endif %}</td>                                         
+                        <td style="text-align:right">{{ produto.quantidade }}</td>                        
+                        <td style="text-align:right">{{ produto.preco_custo|intcomma }}</td>
+                        <td style="text-align:right">{{ produto.preco_venda|intcomma }}</td>
+                        <td>
+                            <div style="text-align:right">
+                                <a class="btn btn-outline-primary btn-sm" style="width: 90px;" href="{% url 'upd_produto' produto.pk %}">Editar</a>
+                                <a class="btn btn-outline-danger btn-sm" style="width: 90px" href="{% url 'del_produto' produto.pk %}">Excluir</a>
+                            </div>   
+                        </td>
+                    </tr>
+                {% endfor %}
+             </tbody>
+        </table>
+        <div>
+           <a class="btn btn-info" style="width: 100px" href="{% url 'add_produto' %}">Incluir</a>       
+        </div>
+        {% include 'paginacao.html' %}
+    </div>
+{% endblock %}
