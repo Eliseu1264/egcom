@@ -1,1 +1,1 @@
-.\venv\scripts\activate
+./venv/Scripts/Activate.ps1
