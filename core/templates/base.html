@@ -1,15 +1,46 @@
 {% load bootstrap4 %}
+{% load  static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% bootstrap_css %}
     <title>SISTEMA eGCOM</title>
+
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+    <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700|Raleway:300,400,400i,500,500i,700,800,900" rel="stylesheet">
+    <link href="{% static 'assets/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
 </head>
-<body>
+<body>  
+  {% include 'base_menu.html' %}
+  
+  <!-- <main id="main">
+  </main> -->
+
     <div class="container">
-        {% block content %}
+       {% block content %}
+       {% endblock %}
+       {% block footer %}
+
+        <!-- <footer id="footer" style="bottom: 10px;">
+          <div style="text-align: right;">
+              <span style="color: #cccccc">
+                Copyright © 2022 Assist Sistemas
+              </span>
+          </div>
+        </footer> -->
         {% endblock %}
     </div>
 {% bootstrap_javascript jquery='full'%}

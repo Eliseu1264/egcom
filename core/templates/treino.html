@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treino</title>
+</head>
+<body>
+    <h2>
+       <!-- Trimeste:
+       <div style="margin: left20px;">
+            {{ jan }} <br> {{fev}}<br>{{mar}}
+       </div> -->
+       Produtos: <br>
+       {% for produto in produtos %}
+           {{ produto.descricao }} ({{ produto.unidade }})<br>
+       {% endfor %}
+    </h2>
+</body>
+</html>

@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <br><br><br>
+    <div class="row" style="background-color:lightblue; height: 40px;">
+        <h4 style="margin-left: 20px; margin-top: 6px;">Clientes</h4>
+    </div> 
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <!-- {% bootstrap_form form %} -->
+        <div class="row" style="background-color:aliceblue">
+            <div class="col-md-4">
+                {{ form.nome|as_crispy_field }}
+            </div>    
+            <div class="col-md-4">
+                {{ form.fantasia|as_crispy_field }}
+            </div>
+            <div class="col-md-2">            
+                {{ form.cnpj|as_crispy_field }}
+            </div>
+            <div class="col-md-2">            
+                {{ form.cpf|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row" style="background-color:aliceblue">
+            <div class="col-md-4">
+                  {{ form.logradouro|as_crispy_field }}
+            </div>
+            <div class="col-md-1">
+                {{ form.num|as_crispy_field }}
+            </div>
+            <div class="col-md-4">
+                {{ form.compl|as_crispy_field }}
+            </div>
+            <div class="col-md-3">
+                {{ form.bairro|as_crispy_field }}
+            </div>
+        </div>         
+        <div class="row" style="background-color:aliceblue">
+            <div class="col-md-3">
+                {{ form.cep|as_crispy_field }}
+            </div>    
+            <div class="col-md-3">
+                {{ form.uf|as_crispy_field }}
+            </div>                  
+            <div class="col-md-1">
+                {{ form.cod_area_celular_1|as_crispy_field }}
+            </div>
+            <div class="col-md-2">
+                {{ form.celular_1|as_crispy_field }}
+            </div>
+            <div class="col-md-1">
+                {{ form.cod_area_celular_2|as_crispy_field }}
+            </div>    
+             <div class="col-md-2">
+                {{ form.celular_2|as_crispy_field }}
+            </div>           
+        </div>       
+        <div class="row" style="background-color:aliceblue">
+            <div class="col-md-1">
+                {{ form.cod_area_celular_3|as_crispy_field }}
+            </div>    
+            <div class="col-md-2">
+                {{ form.celular_3|as_crispy_field }}
+            </div>             
+            <div class="col-md-5">
+                {{ form.email|as_crispy_field }}
+            </div>       
+            <div class="col-md-2">
+                {{ form.vendedor|as_crispy_field }}
+            </div>      
+            <div class="col-md-2">
+                {{ form.contato|as_crispy_field }}
+            </div>    
+        </div>     
+        <div class="row" style="background-color:aliceblue">
+            <div class="col-md-8">
+                {{ form.email_nf|as_crispy_field }}
+            </div>   
+            <div class="col-md-2">
+                {{ form.insc_estadual|as_crispy_field }}
+            </div>
+            <div class="col-md-2">
+                {{ form.insc_municipal|as_crispy_field }}
+            </div>   
+        </div>            
+        <div class="row" style="background-color:aliceblue">
+            <div class="col-md-2">
+                {{ form.credito_limite|as_crispy_field }}
+            </div> 
+            <div class="col-md-10">
+                {{ form.observacao|as_crispy_field }}
+            </div>        
+        </div>     
+        <br>
+        <div class="row" style="background-color:aliceblue">
+            {% buttons %}
+                <button type="submit" class="btn btn-primary" style="width: 100px">
+                    Salvar
+                </button>
+                <button type="button" class="btn btn-warning" style="width: 100px">
+                    <a href="{% url 'list_cliente' %}">Retornar</a>
+                </button>
+            {% endbuttons %}
+        </div>
+    </form>
+{% endblock %}

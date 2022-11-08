@@ -1,23 +1,25 @@
 {% extends 'base.html' %}
 {% load humanize %}
 {% block content %}
-    <br>
-    <div class="row" style="background-color:lightblue; height:32px;">
-        <h4 style="margin-left: 20px">Pedido de Venda</h4>
-    </div>
+    <br><br><br> 
+    <div class="row" style="background-color:lightblue; height: 40px;">
+         <h4 style="margin-left: 20px; margin-top: 6px;">Pedido de Venda</h4>
+    </div> 
     <div class="row">
         <table class="table table-striped table-sm">
             <thead>
-                <tr style="background-color:beige; width:1150px; font-family: Tahoma">
+                <tr style="background-color:beige; width:1250px; font-family: Tahoma">
                     <th scope="col">Pedido</th>
-                    <th scope="col">Cliente</th>
+                    <th scope="col" style="width: 420px">Cliente</th>
                     <th scope="col">Vendedor</th>
                     <th scope="col">Qtd.parc.</th>
                     <th scope="col">Data de entrega</th>
                     <th scope="col">Data cancelamento</th>
+                    <th scope="col" style="text-align:center">Ação</th>
                  </tr>
             </thead>
             <tbody>
+                {% include 'paginacao.html' %}
                 {% for pedidovenda in pedidovendas %}
                     <tr>
                         <td style="text-align:center">{{ pedidovenda.id }}</td>
@@ -39,6 +41,5 @@
         <div>
            <a class="btn btn-info" style="width: 100px" href="{% url 'add_pedido_venda' %}">Incluir</a>       
         </div>
-        {% include 'paginacao.html' %}
     </div>
 {% endblock %}

@@ -4,7 +4,9 @@ from random import choices
 from tabnanny import verbose
 from turtle import width
 from unittest.util import _MAX_LENGTH
+from django import forms
 from django.db import models
+from django.forms import Textarea
 from stdimage.models import StdImageField
 
 class Base(models.Model):
@@ -71,12 +73,12 @@ class Cliente(Base):
     email_nf = models.EmailField('Email NF', max_length=200, blank = True)
     cod_area_celular_1 = models.CharField('Cód.área', max_length=2, blank=True)
     celular_1 = models.CharField('Celular', max_length=9, blank=True)
-    cod_area_celular_1 = models.CharField('Cód.área', max_length=2, blank=True) 
-    celular_1 = models.CharField('Celular', max_length=9, blank=True)
-    cod_area_celular_1 = models.CharField('Cód.área', max_length=2, blank=True)
-    celular_1 = models.CharField('Celular', max_length=9, blank=True)
+    cod_area_celular_2 = models.CharField('Cód.área', max_length=2, blank=True) 
+    celular_2 = models.CharField('Celular', max_length=9, blank=True)
+    cod_area_celular_3 = models.CharField('Cód.área', max_length=2, blank=True)
+    celular_3 = models.CharField('Celular', max_length=9, blank=True)
     credito_limite = models.DecimalField('Limite de crédito', max_digits=12, decimal_places=2, blank=True)
-    observacao = models.TextField('Observação', max_length=2000, blank=True, null=True)
+    observacao = models.CharField('Observação', max_length=2000, blank=True, null=True)
     
     class Meta:
         verbose_name = 'Cliente'
@@ -149,11 +151,14 @@ class Produto(Base):
     quantidade = models.DecimalField('Quantidade', max_digits=12, decimal_places=2, blank=True, default=None)
     preco_custo = models.DecimalField('Preço de custo', max_digits=12, decimal_places=2, blank=True, default=None)
     preco_venda = models.DecimalField('Preço de venda', max_digits=12, decimal_places=2, blank=True, default=None)
-    observacao = models.TextField('Observação', max_length=2000, blank=True, null=True, default=None)
+    observacao = models.TextField('Observação', blank=True, null=True, default=None)
     
     class Meta:
         verbose_name = 'Produto'
         verbose_name_plural = 'Produtos'
+        # widgets = {
+        #   'observacao ': forms.Textarea(attrs={'rows':4, 'cols':4}),
+        # }
         
     def __str__(self):
         return self.descricao
@@ -181,6 +186,7 @@ class Grupo(Base):
     
 class PedidoVenda(Base):
     cliente = models.ForeignKey('core.Cliente', null=True, blank=True, on_delete=models.PROTECT)
+    emissao = models.DateField('Emissão')
     qtdparcelas = models.IntegerField("Quant.parcelas")
     comissao = models.DecimalField('Percentual comissão', max_digits=12, decimal_places=2, blank=True, default=None)
     vendedor = models.ForeignKey('core.Vendedor', verbose_name='Vendedor', on_delete=models.PROTECT, blank=True, null=False)
@@ -197,7 +203,7 @@ class PedidoVenda(Base):
     
 class ItensPedidoVenda(Base):
     pedido = models.ForeignKey('core.PedidoVenda', on_delete=models.CASCADE, related_name='PedidoVenda')
-    prduto = models.ForeignKey('core.Produto', on_delete=models.CASCADE, related_name='PedidoVenda')
+    produto = models.ForeignKey('core.Produto', on_delete=models.CASCADE, related_name='PedidoVenda')
     quantidade = models.DecimalField('Quantidade', max_digits=12, decimal_places=2, blank=True, default=None)
     preco = models.DecimalField('Preço', max_digits=12, decimal_places=2, blank=True, default=None)
     desconto_perc = models.DecimalField('Percentual de desconto', max_digits=12, decimal_places=2, blank=True, default=None)

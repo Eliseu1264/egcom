@@ -1,4 +1,9 @@
 // ---------Responsive-navbar-active-animation-----------
+var deleteBtn = $('.delete-btn');
+var searchBtn = $('#search-btn');
+var searchForm = $('#search-form');
+var filter     = $('#filter');
+
 function test(){
 	var tabsNewAnim = $('#navbarSupportedContent');
 	var selectorNewAnim = $('#navbarSupportedContent').find('li').length;
@@ -81,3 +86,12 @@ jQuery(document).ready(function($){
 function clicar() {
 	alert('Funcionando...');
 }
+
+$(searchBtn).on('click', function() {
+	searchForm.submit();
+});
+
+$(filter).change(function() {
+	var filter = $(this).val();
+	window.location.href = baseUrl + '?filter=' + filter;
+});

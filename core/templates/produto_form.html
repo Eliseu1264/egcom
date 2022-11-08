@@ -2,25 +2,25 @@
 {% load bootstrap4 %}
 {% load crispy_forms_tags %}
 {% block content %}
+    <br><br><br>
+    <div class="row" style="background-color:lightblue; height: 40px;">
+        <h4 style="margin-left: 20px; margin-top: 6px;">Produtos</h4>
+    </div> 
     <br>
-    <div class="row" style="background-color:lightblue; height:32px;">
-        <h4 style="margin-left: 20px">Produtos</h4>
-    </div>  
-    <div class="row" style="background-color:aliceblue; height:12px;"></div> 
     <form method="post">
         {% csrf_token %}
          <!-- {% bootstrap_form form %} -->
         <div class="row" style="background-color:aliceblue">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 {{ form.descricao|as_crispy_field }}
             </div>    
-            <div class="col-md-3">
+            <div class="col-md-4">
                 {{ form.compl|as_crispy_field }}
             </div>
-            <div class="col-md-3">           
+            <div class="col-md-2">           
                 {{ form.unidade|as_crispy_field }}
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 {{ form.grupo|as_crispy_field }}
             </div>
         </div>    
@@ -37,16 +37,19 @@
         </div>   
         <div class="row" style="background-color:aliceblue">                
             <div class="col-md-12">
-                {{ form.observacao|as_crispy_field }}
+                {{ form.observacao|as_crispy_field  }}
             </div>
         </div>   
-        {% buttons %}
-            <button type="submit" class="btn btn-primary" style="width: 100px">
+        <br>
+        <div class="row" style="background-color:aliceblue">
+            {% buttons %}
+                <button type="submit" class="btn btn-primary" style="width: 100px">
                     Salvar
-            </button>
-            <button type="button" class="btn btn-warning" style="width: 100px">
-                <a href="{% url 'list_produto' %}">Retornar</a>
-            </button>
-        {% endbuttons %}
+                </button>
+                <button type="button" class="btn btn-warning" style="width: 100px">
+                    <a href="{% url 'list_produto' %}">Retornar</a>
+                </button>
+            {% endbuttons %}
+        </div>
     </form>
 {% endblock %}

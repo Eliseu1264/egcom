@@ -1,0 +1,72 @@
+{% load  static %}
+{% load bootstrap4 %}
+<header id="header" class="fixed-top d-flex align-items-center" style="height:45px">
+    <br>
+    <div class="container d-flex justify-content-between">
+      <div class="logo">
+        <h1><a href="#"><span>e</span>GCom</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="{% static 'assets/img/logo.png'%}" alt="" class="img-fluid"></a> -->
+      </div>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li class="dropdown"><a href="#"><span>Financeiro</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="#">Contas a receber</a></li>
+              <li><a href="#">Contas a pagar</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown"><a href="#"><span>Administrativo</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="{% url 'list_produto' %}">Produtos</a></li>
+              <li><a href="{% url 'list_pedido_venda' %}">Pedido de venda</a></li>
+              
+              <li class="dropdown"><a href="#"><span>Tabelas auxiliares</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="#">Grupos</a></li>
+                  <li><a href="#">Códigos fiscais</a></li>
+                </ul>
+              </li>
+               <li class="dropdown"><a href="#"><span>Relatórios</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="#">Listagem de produtos</a></li>
+                  <li><a href="#">Listagem de entradas</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="#"><span>Cadastros gerais</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="{% url 'list_cliente' %}">Clientes</a></li>
+              <li><a href="#">Municípios</a></li>
+              <li><a href="#">Unidades de medidas</a></li>
+              <li><a href="#">UF`s</a></li>
+            </ul>
+          </li>         
+          
+          <li class="dropdown"><a href="#"><span>Relatórios gerais</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <!-- <li><a href="{% url 'print_rel' %}">Imprimir</a></li> -->
+              <li><a href="#">Listagem de clientes</a></li>
+            </ul>
+          </li>             
+
+          <li class="dropdown"><a href="#"><span>Utilitários</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="{% url 'admin:index' %}">Manutenção admin. de dados</a></li>
+              <li><a href="#">Parâmetros gerais</a></li>
+              <li><a href="#contact">Contato Assist</a></li>
+              <li><a href="#">Backup</a></li>
+              <li><a href="{% url 'list_treino' %}">Treino</a></li>
+              <li><a href="{% url 'logoutview' %}">Sair</a></li>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!-- menu mibile -->
+        <i class="bi bi-list mobile-nav-toggle">
+        </i>
+      </nav><!-- .navbar -->
+    </div>
+  </header><!-- End Header -->
