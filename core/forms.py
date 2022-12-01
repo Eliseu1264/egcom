@@ -1,17 +1,18 @@
-from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
-from .models import PedidoVenda, ItensPedidoVenda
+from django import forms
+from core.models import PedidoVenda, ItensPedidoVenda
 
-class PedidoVendaForm(ModelForm):
+class PedidoVendaForms(forms.ModelForm):
     class Meta:
         model = PedidoVenda
-        fields = ['cliente', 'qtdparcelas', 'comissao', 'vendedor', 'dataentrega', 'datacancelamento', 'observacao', 'ativo']
+        exclude = ['date']
 
-ItensPedidoVendaFormSet = inlineformset_factory(                                                
-                                                PedidoVenda, 
-                                                ItensPedidoVenda, 
-                                                form = PedidoVendaForm,                                              
-                                                fields = ('pedido', 'produto', 'quantidade', 'preco', 'desconto_perc', 'detalhamento'),
-                                                extra=0,
-                                                can_delete=True
-                                                )
+class ItensPedidoVendaForms(forms.ModelForm):
+    model = ItensPedidoVenda    
+    # fields = ['produto', 'quantidade', 'preco', 'desconto_perc', 'detalhamento']   
+    
+    class Meta:
+        exclude = ['pedidovenda']   
+        
+
+ItensPedidoVendaFormSet = inlineformset_factory(PedidoVenda, ItensPedidoVenda, form=ItensPedidoVendaForms, extra=1, labels=None )

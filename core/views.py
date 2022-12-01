@@ -1,4 +1,5 @@
 
+
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
@@ -6,13 +7,13 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView
-from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from .forms import ItensPedidoVendaFormSet, PedidoVendaForm
+from .forms import ItensPedidoVendaFormSet, PedidoVendaForms
 from .models import Cliente, PedidoVenda, Produto
 from django.views.generic.base import TemplateView
 from reportlab.pdfgen import canvas
 from django.http import HttpResponse
+from django.contrib.messages.views import SuccessMessageMixin
 
 def index(request):
     context = {}
@@ -74,19 +75,27 @@ class CreateClienteView(CreateView):
     fields = ['nome', 'fantasia', 'cnpj', 'cpf', 'contato', 'sexo', 'logradouro', 'compl', 'num', 'bairro',
 	          'municipio', 'uf','cep', 'insc_estadual', 'insc_municipal', 'vendedor', 'email', 'email_nf',
               'cod_area_celular_1', 'celular_1', 'cod_area_celular_2', 'celular_2', 'cod_area_celular_3',
-              'celular_3', 'credito_limite', 'observacao', 'ativo']   
+              'celular_3', 'credito_limite', 'observacao', 'ativo']  
     success_url = reverse_lazy('add_cliente')
     
+    def form_valid(self, form):
+        messages.add_message(
+            self.request, 
+            messages.SUCCESS,
+            'Cliente incluído com sucesso.'
+        )
+        return super().form_valid(form)
 
-class UpdateClienteView(UpdateView):
+class UpdateClienteView(SuccessMessageMixin, UpdateView):
     model = Cliente
     template_name = 'cliente_form.html'
     fields = ['nome', 'fantasia', 'cnpj', 'cpf', 'contato', 'sexo', 'logradouro', 'compl', 'num', 'bairro', 
 	          'municipio', 'uf','cep', 'insc_estadual', 'insc_municipal', 'vendedor', 'email', 'email_nf',
               'cod_area_celular_1', 'celular_1', 'cod_area_celular_2', 'celular_2', 'cod_area_celular_3',
-              'celular_3', 'credito_limite', 'observacao', 'ativo']  
-    success_url = reverse_lazy('list_cliente')
-
+              'celular_3', 'credito_limite', 'observacao', 'ativo'] 
+    success_url = reverse_lazy('list_cliente') 
+    # success_message = "Registro atualizado com sucesso."
+  
 class DeleteClienteView(DeleteView):
     model = Cliente
     queryset = Cliente.objects.all()
@@ -142,48 +151,39 @@ class ListPedidoVendaView(ListView):
     ordering = 'id'
 
 class CreatePedidoVendaView(CreateView):
-    model = PedidoVenda
     template_name = 'pedidovenda_form.html'
-    form_class = PedidoVendaForm
-    fields = ['cliente', 'qtdparcelas', 'comissao', 'vendedor', 'dataentrega', 'datacancelamento', 'observacao', 'ativo']
-    success_url = reverse_lazy('add_pedido_venda')
+    form_class = PedidoVendaForms
 
-    def get(self, request, *args, **kwargs):
-            self.object = None
-            form_class = self.get_form_class()
-            form = self.get_form(form_class)
-            ItensPedidoVenda_form = ItensPedidoVendaFormSet()
-            return self.render_to_response(
-                self.get_context_data(form=form,
-                                    ItensPedidoVenda_form=ItensPedidoVenda_form
-                                     ))
+    def get_context_data(self, **kwargs):
+        context = super(CreatePedidoVendaView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['forms'] = PedidoVendaForms(self.request.POST)
+            context['formset'] = ItensPedidoVendaFormSet(self.request.POST)
+        else:
+            context['forms'] = PedidoVendaForms()
+            context['formset'] = ItensPedidoVendaFormSet()
+        return context
 
-    def post(self, request, *args, **kwargs):
-            self.object = None
-            form_class = self.get_form_class()
-            form = self.get_form(form_class)
-            ItensPedidoVenda_form = ItensPedidoVendaFormSet(self.request.POST)
-            if (form.is_valid() and ItensPedidoVenda_form.is_valid()):
-                return self.form_valid(form, ItensPedidoVenda_form)
-            else:
-                return self.form_invalid(form, ItensPedidoVenda_form)
-
-    def form_valid(self, form, ItensPedidoVenda_form):
+    def form_valid(self, form):
+        context = self.get_context_data()
+        forms = context['forms']
+        formset = context['formset']
+        if forms.is_valid() and formset.is_valid():
             self.object = form.save()
-            ItensPedidoVenda_form.instance = self.object
-            ItensPedidoVenda_form.save()
-            return HttpResponseRedirect(self.get_success_url())
-
-    def form_invalid(self, form, ItensPedidoVenda_form):
-        return self.render_to_response(
-            self.get_context_data(form=form,
-                                  ItensPedidoVenda_form=ItensPedidoVenda_form))
+            forms.instance = self.object
+            formset.instance = self.object
+            forms.save()
+            formset.save()
+            return redirect('list_cliente')
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
 
 class UpdatePedidoVendaView(UpdateView):
     model = PedidoVenda
     template_name = 'pedidovenda_form.html'
     fields = ['cliente', 'qtdparcelas', 'comissao', 'vendedor', 'dataentrega', 'datacancelamento', 'observacao', 'ativo']
     success_url = reverse_lazy('list_pedido_venda')
+    
 
 class DeletePedidoVendaView(DeleteView):
     model = PedidoVenda

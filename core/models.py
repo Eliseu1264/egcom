@@ -46,7 +46,7 @@ class Contato(Base):
         
     def __str__(self):
         return self.nome    
-  
+    
 class Cliente(Base):
     SEXO_CHOICES = (
         ("F", "Feminino"),
@@ -187,31 +187,31 @@ class Grupo(Base):
 class PedidoVenda(Base):
     cliente = models.ForeignKey('core.Cliente', null=True, blank=True, on_delete=models.PROTECT)
     emissao = models.DateField('Emissão')
-    qtdparcelas = models.IntegerField("Quant.parcelas")
-    comissao = models.DecimalField('Percentual comissão', max_digits=12, decimal_places=2, blank=True, default=None)
+    qtdparcelas = models.IntegerField("Qt.parc.")
+    comissao = models.DecimalField('% Comis', max_digits=12, decimal_places=2, blank=True, default=None)
     vendedor = models.ForeignKey('core.Vendedor', verbose_name='Vendedor', on_delete=models.PROTECT, blank=True, null=False)
-    dataentrega = models.DateTimeField('Data da entrega', null=True)
-    datacancelamento = models.DateTimeField('Data de cancelamento', null=True)
-    observacao = models.TextField('Observação', max_length=2000, blank=True, null=True, default=None)
+    dataentrega = models.DateField('Entrega', null=True)
+    datacancelamento = models.DateField('Cancelamento', null=True)
+    observacao = models.CharField('Observação', max_length=2000, blank=True, null=True, default=None)
     
     class Meta:
         verbose_name = 'Pedido de Venda'
         verbose_name_plural = 'Pedidos de Venda'
         
     def __str__(self):
-        return self.cliente
+        return str(self.cliente)
     
 class ItensPedidoVenda(Base):
     pedido = models.ForeignKey('core.PedidoVenda', on_delete=models.CASCADE, related_name='PedidoVenda')
     produto = models.ForeignKey('core.Produto', on_delete=models.CASCADE, related_name='PedidoVenda')
     quantidade = models.DecimalField('Quantidade', max_digits=12, decimal_places=2, blank=True, default=None)
     preco = models.DecimalField('Preço', max_digits=12, decimal_places=2, blank=True, default=None)
-    desconto_perc = models.DecimalField('Percentual de desconto', max_digits=12, decimal_places=2, blank=True, default=None)
-    detalhamento = models.TextField('Detalhes/Obs', max_length=2000, blank=True, null=True, default=None)
+    desconto_perc = models.DecimalField('% desconto', max_digits=12, decimal_places=2, blank=True, default=None)
+    detalhamento = models.CharField('Observação', max_length=2000, blank=True, null=True, default=None)
     
     class Meta:
         verbose_name = 'Item de Pedido de Venda'
         verbose_name_plural = 'Itens de Pedido de Venda'
         
     def __str__(self):
-        return self.pedido
+        return str(self.pedido)

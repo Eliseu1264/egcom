@@ -26,6 +26,6 @@ urlpatterns = [
     path('addcli/', CreateClienteView.as_view(), name='add_cliente'),
     path('<int:pk>/updatecli/', UpdateClienteView.as_view(), name='upd_cliente'),
     path('<int:pk>/deletecli/', DeleteClienteView.as_view(), name='del_cliente'),
-
+    
     path('logout/', UserLogoutView.as_view(), name='logoutview'),  
 ]

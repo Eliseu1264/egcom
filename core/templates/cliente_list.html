@@ -26,12 +26,12 @@
                     <tr>
                         <td>{{ cliente.id }}</td>
                         <td>{{ cliente.nome }}</td>
-                        <td>{{ cliente.cnpj }}</td>
+                         <td>{{ cliente.cnpj }}</td>
                         <td>{{ cliente.cpf }}</td>                                                                 
                         <td>{{ cliente.email }}</td>                        
                         <td>{{ cliente.bairro }}</td>
                         <td>{{ cliente.municipio }}</td>
-                        <td>{% if cliente.ativo %} Sim {% else %} Não {% endif %}</td>  
+                        <td>{% if cliente.ativo %} Sim {% else %} Não {% endif %}</td>
                         <td>
                             <div style="text-align:right">
                                 <a class="btn btn-outline-primary btn-sm" style="width: 90px" href="{% url 'upd_cliente' cliente.pk %}">Editar</a>
@@ -57,11 +57,5 @@
                 </button>
             </div>
         </div>
-
-        <!-- <footer id="footer" style="bottom: 10px">
-            <div style="text-align: left;">
-                <a class="btn btn-info" style="width: 100px" href="{% url 'add_cliente' %}">Incluir</a>
-            </div>
-        </footer> -->
      </div>
     {% endblock %}

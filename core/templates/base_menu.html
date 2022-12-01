@@ -65,7 +65,16 @@
           </li>
         </ul>
         <!-- menu mibile -->
-        <i class="bi bi-list mobile-nav-toggle">
+        <li class="bi bi-list mobile-nav-toggle">
+          <ul>
+            <li><a href="{% url 'admin:index' %}">Manutenção admin. de dados</a></li>
+            <li><a href="#">Parâmetros gerais</a></li>
+            <li><a href="#contact">Contato Assist</a></li>
+            <li><a href="#">Backup</a></li>
+            <li><a href="{% url 'list_treino' %}">Treino</a></li>
+            <li><a href="{% url 'logoutview' %}">Sair</a></li>
+            </li>
+          </ul>
         </i>
       </nav><!-- .navbar -->
     </div>

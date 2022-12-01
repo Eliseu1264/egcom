@@ -5,10 +5,27 @@ from .models import Unidade, Grupo
 
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nome', 'fantasia', 'cpf', 'cnpj', 'email', 'uf')                
-    search_fields = ['id', 'nome', 'fantasia', 'cpf', 'cnpj', 'email']
+    list_display = ('id', 'nome', 'fantasia', 'cpf', 'cnpj', 'logradouro', 
+                    'num', 'bairro','municipio', 'uf', 'cep' )   
+     
+    fields = [('nome', 'fantasia'), 
+              ('cnpj', 'cpf'),
+              ('contato', 'sexo'),
+              ('logradouro', 'compl'),
+              ('num', 'bairro'), 
+              ('municipio', 'uf'), 
+              ('cep', 'insc_estadual'),
+              ('vendedor', 'email'), 
+              ('insc_municipal', 'email_nf'), 
+              ('cod_area_celular_1', 'celular_1'),
+              ('cod_area_celular_2', 'celular_2'),
+              ('cod_area_celular_3', 'celular_3'), 
+              ('credito_limite', 'ativo'),
+              ('observacao')]
+          
+    search_fields = ['id', 'municipio', 'nome', 'fantasia', 'cpf', 'cnpj', 'email']
     list_display_links = ('id', 'nome')
-    list_filter = ('contato','uf', 'municipio', 'vendedor')
+    list_filter = ['uf', 'municipio', 'bairro', 'contato', 'vendedor']
     list_per_page = 8
 
 @admin.register(Contato)
@@ -29,17 +46,20 @@ class VendedorAdmin(admin.ModelAdmin):
 @admin.register(Cargo)
 class CargoAdmin(admin.ModelAdmin):
     list_display = ('id', 'cargo', 'ativo', 'modificado')
+    list_display_links = ('id', 'cargo')
     search_fields = ['id', 'cargo']
     
 @admin.register(Municipio)
 class MunicipioAdmin(admin.ModelAdmin):
     list_display = ('nome', 'cmun', 'uf', 'siaf', 'ativo', 'modificado')
+    list_display_links = ('nome',)
     search_fields = ['id', 'nome', 'cmun', 'uf']
     
 @admin.register(Uf)
 class UfAdmin(admin.ModelAdmin):
     list_display = ('nome', 'sigla', 'codmun', 'maskfone', 'aliq_mva', 'carga_liq', 
                     'carga_imp', 'carga_simples','tempo_carrego', 'tempo_entrega', 'ativo', 'modificado')
+    list_display_links = ('nome',)
     search_fields = ['id', 'nome', 'sigla', 'codmun']
     
 @admin.register(Produto)
@@ -59,16 +79,17 @@ class ProdutoAdmin(admin.ModelAdmin):
 class UnidadeAdmin(admin.ModelAdmin):
     list_display = ('descricao', 'sigla', 'ativo', 'modificado')
     search_fields = ['id', 'descricao', 'sigla']
-    
-    
+      
 @admin.register(Grupo)
 class GrupoAdmin(admin.ModelAdmin):
     list_display = ('id', 'descricao', 'ativo', 'modificado')
+    list_display_links = ('id', 'descricao')
     search_fields = ['id', 'descricao']
  
 class ItensPedidoVendaInline(admin.TabularInline):
     model = ItensPedidoVenda
     extra = 0
+    can_delete = False
     fields = ['produto', 'quantidade', 'preco',
               'desconto_perc', 'detalhamento']   
     
@@ -78,18 +99,12 @@ class PedidoVendaAdmin(admin.ModelAdmin):
     list_display = ('id', 'cliente', 'emissao', 'vendedor', 'qtdparcelas', 'comissao', 'dataentrega', 
                     'datacancelamento', 'observacao', 'modificado')
     fields = [('cliente', 'vendedor', 'emissao', 'qtdparcelas'),
-              ('comissao', 'dataentrega', 'datacancelamento'), 
-               'observacao']       
+              ('comissao', 'dataentrega'), 'observacao']       
     search_fields = ['id', 'emissao']
     list_display_links = ('id', 'cliente')
     list_filter = ('cliente', 'vendedor')
     list_per_page = 8
-    
-@admin.register(ItensPedidoVenda)
-class ItensPedidoVendaAdmin(admin.ModelAdmin):    
-    list_display = ('id', 'pedido', 'produto') 
-    
+      
 admin.site.site_title = 'Administração do Sistema'
 admin.site.site_header = 'Administração de dados do Sistema'
 admin.site.index_title = 'Administração eGCom'
-

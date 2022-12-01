@@ -1,34 +1,54 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load bootstrap4 %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <br><br><br> 
+    <script>
+        $(function(){
+            $("#add-item").click(function(ev) {
+                ev.preventDefault();
+                var count = $('#pedido').children().length;
+                var tmplMarkup = $("#item-pedido").html();
+                var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                $("div#item_pedido").append(compiledTmpl);
+                // update form count
+                $('#id_produto-TOTAL_FORMS').attr('value', count + 1);
+                // some animate to scroll to view our new form
+                $('html, body').animate({
+                    scrollTop: $("#add-item").position().top-200
+                }, 800);
+            });
+        });        
+    </script>      
+    <br>
+    <br>
+    <br> 
     <div class="row" style="background-color:lightblue; height: 40px;">
         <h4 style="margin-left: 20px; margin-top: 6px;">Pedido de Venda</h4>
     </div> 
     <br>   
     <form method="post">
         {% csrf_token %}
-         <!-- {% bootstrap_form form %} -->
+        <!-- {% bootstrap_form form %} -->
+        <!-- {{ forms|crispy }} -->
+        <!-- {{ formset.management_form }} -->
         <div class="row" style="background-color:aliceblue">   
-            <div class="col-md-3">
+            <div class="col-md-4">
                 {{ form.cliente|as_crispy_field }}
             </div>
-            <div class="col-md-3">           
+            <div class="col-md-2">           
                 {{ form.vendedor|as_crispy_field }}
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 {{ form.dataentrega|as_crispy_field }}
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 {{ form.datacancelamento|as_crispy_field }}
             </div>            
-        </div>    
-        <div class="row" style="background-color:aliceblue">
-            <div class="col-md-4">
+            <div class="col-md-1">
                   {{ form.qtdparcelas|as_crispy_field }}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-1">
                 {{ form.comissao|as_crispy_field }}
             </div>
         </div>   
@@ -36,14 +56,56 @@
             <div class="col-md-12">
                 {{ form.observacao|as_crispy_field }}
             </div>
-        </div>   
-        {% buttons %}
-            <button type="submit" class="btn btn-primary" style="width: 100px">
+        </div>        
+
+        <br>
+        <legend class="lead">Itens de Pedido</legend>
+
+        <div id="pedido" class="form-inline form-group">
+            {% for formit in formset %}
+                <div id="item-{{ forloop.counter0 }}">
+                    <!-- {{ item_order_form|crispy }} -->
+                    <div class="row" style="background-color:aliceblue">   
+                        <div class="col-md-3">
+                            {{ formit.produto|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2">           
+                            {{ formit.quantidade|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ formit.preco|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ formit.desconto_perc|as_crispy_field }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ formit.detalhamento|as_crispy_field }}
+                        </div>            
+                    </div>    
+                </div>
+            {% endfor %}
+        </div>
+        <br>
+        <div class="form-inline buttons">
+            <a class="btn btn-info" id="add-item"><em class="fa fa-plus"></em>Novo Item</a>            
+            <a href="{% url 'list_pedido_venda' %}" class="btn btn-warning pull-right"><em class="fa fa-times"></em>Cancelar</a>
+            <button type="submit" class="btn btn-primary pull-right" value="Save"><em class="fa fa-floppy-o"></em>Salvar</button>
+        </div>
+        <!-- {% buttons %}
+            <button type="button" class="btn btn-info" id="add-item" style="width: 120px">
+                Novo Item
+            </button>
+            <button type="submit" class="btn btn-primary" style="width: 120px">
                     Salvar
             </button>
-            <button type="button" class="btn btn-warning" style="width: 100px">
+            <button type="button" class="btn btn-warning" style="width: 120px">
                 <a href="{% url 'list_pedido_venda' %}">Retornar</a>
             </button>
-        {% endbuttons %}
+        {% endbuttons %} -->
     </form>
+    <script type="text/html" id="item-pedido">
+        <div id="item-__prefix__" style="margin-top: 10px">
+                {{ formset.empty_form|crispy }}
+        </div>
+    </script>
 {% endblock %}

@@ -7,8 +7,16 @@
         <h4 style="margin-left: 20px; margin-top: 6px;">Clientes</h4>
     </div> 
     <br>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="text-center alert alert-{{ message.tags }}">
+                {{ message|safe }}
+            </div>
+        {% endfor %}
+    {% endif %}
     <form method="post">
         {% csrf_token %}
+        <!-- {{ form }} -->
         <!-- {% bootstrap_form form %} -->
         <div class="row" style="background-color:aliceblue">
             <div class="col-md-4">
@@ -39,10 +47,13 @@
             </div>
         </div>         
         <div class="row" style="background-color:aliceblue">
-            <div class="col-md-3">
-                {{ form.cep|as_crispy_field }}
+            <div class="col-md-2">
+                {{ form.municipio|as_crispy_field }}
             </div>    
-            <div class="col-md-3">
+            <div class="col-md-2">
+                {{ form.cep|as_crispy_field }}
+            </div> 
+            <div class="col-md-2">
                 {{ form.uf|as_crispy_field }}
             </div>                  
             <div class="col-md-1">
@@ -76,7 +87,10 @@
             </div>    
         </div>     
         <div class="row" style="background-color:aliceblue">
-            <div class="col-md-8">
+            <div class="col-md-2">
+                {{ form.sexo|as_crispy_field }}
+            </div> 
+            <div class="col-md-6">
                 {{ form.email_nf|as_crispy_field }}
             </div>   
             <div class="col-md-2">
@@ -95,6 +109,7 @@
             </div>        
         </div>     
         <br>
+
         <div class="row" style="background-color:aliceblue">
             {% buttons %}
                 <button type="submit" class="btn btn-primary" style="width: 100px">
